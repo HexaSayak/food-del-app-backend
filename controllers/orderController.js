@@ -12,7 +12,11 @@ const stripe = new Stripe('sk_test_51RA54zR78k8qUHrq5nRjiNZsf9xhuEHgs7mCJitelgme
 
 const placeOrder = async (req, res) => {
 
-    const frontend_url = "http://localhost:3009";
+    // const frontend_url = "https://food-del-app-cmlt-frontend.vercel.app";
+    const frontend_url = process.env.FRONTEND_URL || "https://food-del-app-cmlt-frontend.vercel.app";
+    if (!frontend_url) {
+        return res.status(500).json({ success: false, message: "FRONTEND_URL environment variable is not set." });
+    }
 
     try {
         const newOrder = new orderModel({
